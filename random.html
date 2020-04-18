@@ -1,0 +1,52 @@
+<!-- <div class="btn-group" role="group" aria-label="Basic example">
+<%  for (var i = 0; i <  size ; i++){ %>
+  <div class="col-sm col-lg-6">
+  <%  if (questionNumber == i){ %>
+      <button type="submit" class="btn btn-light question-buttons active" name="button" value = "<%= (i + 1) %>"><%= (i + 1) %></button>
+    <%} else { %>
+      <button type="submit" class="btn btn-light question-buttons" name="button" value = "<%= (i + 1) %>"><%= (i + 1) %></button>
+    <%}%>
+      </div>
+  <%}%>
+</div> -->
+
+
+<!-- <div class="container">
+  <div class="row">
+
+    <%  for (var i = 0; i <  size ; i++){ %>
+      <div class="col-sm-3 col-md-2 col-lg-1">
+      <%  for (var j = 0; j < 4; j++){ %>
+        <%  if (j + i > size){ break;} %>
+          <%  if (questionNumber == i){ %>
+              <button type="submit" class="btn btn-light question-buttons active" name="button" value = "<%= (i + 1) %>"><%= (i + 1) %></button>
+            <%} else { %>
+              <button type="submit" class="btn btn-light question-buttons" name="button" value = "<%= (i + 1) %>"><%= (i + 1) %></button>
+            <%}%>
+
+      <%  } %>
+        <%i=j - 1%>
+          </div>
+      <%}%>
+  </div>
+</div> -->
+
+<!-- WORKING -->
+
+<div class="container">
+  <div class="row">
+
+    <%  for (var i = 0; i <  size ; i++){ %>
+      <div class="col-sm-3 col-md-2 col-lg-1">
+
+          <%  if (questionNumber == i){ %>
+              <button type="submit" class="btn btn-light question-buttons active" name="button" value = "<%= (i + 1) %>"><%= (i + 1) %></button>
+            <%} else { %>
+              <button type="submit" class="btn btn-light question-buttons" name="button" value = "<%= (i + 1) %>"><%= (i + 1) %></button>
+            <%}%>
+
+
+          </div>
+      <%}%>
+  </div>
+</div>

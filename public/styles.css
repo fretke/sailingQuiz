@@ -1,0 +1,26 @@
+h5{
+  font-size: 20px;
+}
+
+.question-buttons{
+  margin: 10px 0 10px 3px;
+}
+
+.checkbox-style{
+  color: #FFF;
+}
+img{
+  height: 150px;
+  margin: 50px 0;
+}
+
+
+/* BUTTON SECTION */
+
+.navigation-buttons{
+  text-align: center;
+}
+
+.alignment{
+  text-align: center;
+}

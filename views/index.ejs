@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Sailing</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <form class="" action="/next/<%= id %>" method="post">
+
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h5 class="display-5"> <%= question.question %></h5>
+        <div class="image">
+          <img src="/images/<%= image %>.png" alt="">
+        </div>
+
+        <% var j = 0; %>
+        <%  question.answers.forEach(function(answer){ %>
+        <%  if (question.pick == j.toString()){ %>
+        <p class="lead"><input class="userChoice checkbox-style" type="checkbox" name="pick" value="<%= j %>"> <%= answer.answer %> </p>
+        <%} else {%>
+        <p class="lead"> <input type="checkbox" name="pick" value="<%= j %>"> <%= answer.answer %> </p>
+        <%}%>
+          <% j++; %>
+        <%  });%>
+      </div>
+    </div>
+
+    <!-- BUTTON SECTION -->
+
+    <div class="navigation-buttons">
+      <button class="btn btn-light" type="submit" name="button" value="previous">praeitas</button>
+      <button class="btn btn-light" type="submit" name="button" value="next">kitas</button>
+    </div>
+
+
+    <div class="contaier-fluid">
+
+      <div class="container-fluid">
+        <div class="row">
+
+          <%  for (var i = 0; i <  size ; i++){ %>
+          <div class="col-sm-12 col-md-6 col-lg-3 alignment">
+            <%  for (var j = 0; j < 7; j++){ %>
+            <%  if (questionNumber == i){ %>
+            <button type="submit" class="btn btn-light question-buttons active" name="button" value="<%= (i + 1) %>"><%= (i + 1) %></button>
+            <%} else { %>
+            <button type="submit" class="btn btn-light question-buttons" name="button" value="<%= (i + 1) %>"><%= (i + 1) %></button>
+            <%}%>
+            <% i++; %>
+            <%  } %>
+            <% i--; %>
+          </div>
+          <%}%>
+        </div>
+      </div>
+
+    </div>
+
+
+  </form>
+  <div class="navigation-buttons">
+    <form class="" action="/result/<%= id %>" method="post">
+          <button type="submit" class="btn btn-danger question-buttons" name="button">Baigti testą</button>
+  </form>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+
+<script src="/index.js" charset="utf-8"></script>
+
+</html>
