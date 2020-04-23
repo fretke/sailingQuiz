@@ -1,0 +1,25 @@
+<%- include("partials/header") -%>
+
+<body>
+  <div class="container-full-bg">
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-4"> <%= resultMessage %> </h1>
+        <p class="lead"> Atsakei <%= correctAnswers %> iš <%= totalQuestions %> ( <%= percentage %> %)</p>
+        <hr class="my-4">
+        <p class="lead">
+          <a class="btn btn-primary btn-lg" href="/" role="button">Grįžti į pradžią</a>
+          <a class="btn btn-primary btn-lg" href="/review/<%= id %>" role="button">Klausimų peržiūra</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+<%- include("partials/footer") -%>

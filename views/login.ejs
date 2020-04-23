@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/login.css">
+  </head>
+  <body>
+    <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <h4>Buriavimo testas jau čia!</h4>
+    </div>
+
+    <!-- Login Form -->
+    <form class="" action="<%= path %>" method="post">
+      <input type="text" id="login" class="fadeIn second" name="name" placeholder="vartotojo vardas">
+      <input type="text" id="password" class="fadeIn third" name="password" placeholder="slaptažodis">
+      <input type="submit" class="fadeIn fourth" value="<%= action %>">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="/register"><%= wantReg %></a>
+      <br>
+      <a class="underlineHover" href="#"><%= remindPass %></a>
+    </div>
+
+  </div>
+</div>
+  </body>
+</html>

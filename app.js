@@ -1,32 +1,12 @@
 //jshint esversion:6
 
-function Answer(answer, isCorrect) {
-  this.answer = answer;
-  this.isCorrect = isCorrect;
-
-}
-
-function Question(question, answers, picture) {
-  this.question = question;
-  this.answers = answers;
-  this.picture = picture;
-  this.pick = null;
-}
-
-function Test(listOfQuestions, uniqueId, currentQuestion) {
-  this.listOfQuestions = listOfQuestions;
-  this.uniqueId = uniqueId;
-  this.currentQuestion = currentQuestion;
-}
-
+/////////////////MODULES, SET UP///////////////////////////////
+const dataBase = require(__dirname + "/database.js");
+const mongoDB = require(__dirname + "/mongDB.js");
 const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
-
-
-let uniqueId = 0;
-let testList = [];
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
@@ -34,13 +14,23 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
+/////////////////////////VARIABLES///////////////////////////////
+
+function Test(listOfQuestions, uniqueId, currentQuestion) {
+  this.listOfQuestions = listOfQuestions;
+  this.uniqueId = uniqueId;
+  this.currentQuestion = currentQuestion;
+}
+
+let uniqueId = 0;
+let testList = [];
+
+
+////////////////////  SERVER /////////////////////////
+
 app.listen(3000, function() {
   console.log("server is running on port 3000");
 });
-
-// app.get("/:id/:questionNumber", function(req, res) {
-//   console.log(req.params);
-// });
 
 app.post("/next/:id", function(req, res) {
   var idOfRequest = parseInt(req.params.id);
@@ -48,7 +38,13 @@ app.post("/next/:id", function(req, res) {
   console.log(req.body);
   var currentTest = getCurrentTest(idOfRequest);
   currentTest.listOfQuestions[currentTest.currentQuestion].pick = req.body.pick;
-  // console.log("before aplying pick " + currentTest.listOfQuestions[currentTest.currentQuestion].pick);
+
+  console.log("Picture number = " + currentTest.listOfQuestions[currentTest.currentQuestion].picture);
+
+  if ((currentTest.listOfQuestions.length - 1) === currentTest.currentQuestion && action === "next"){
+    res.redirect("/result/" + idOfRequest);
+  }
+
   if (action === "next") {
     currentTest.currentQuestion++;
   } else if (action === "previous") {
@@ -56,110 +52,125 @@ app.post("/next/:id", function(req, res) {
   } else {
     currentTest.currentQuestion = parseInt(action) - 1;
   }
-  console.log("picture - " + currentTest.listOfQuestions[currentTest.currentQuestion].picture);
+  // console.log("picture - " + currentTest.listOfQuestions[currentTest.currentQuestion].picture);
   res.render("index", {
 
-    image: currentTest.listOfQuestions[currentTest.currentQuestion].picture,
+    // image: currentTest.listOfQuestions[currentTest.currentQuestion].picture,
     id: currentTest.uniqueId,
     question: currentTest.listOfQuestions[currentTest.currentQuestion],
-    size: currentTest.listOfQuestions.length,
+    questionList: currentTest.listOfQuestions,
     questionNumber: currentTest.currentQuestion
 
   });
 });
-app.post("/result/:id", function(req, res) {
-  let currentTest = getCurrentTest(parseInt(req.params.id));
+app.get("/result/:id", function(req, res) {
+  let testId = parseInt(req.params.id);
+  let currentTest = getCurrentTest(testId);
+  let numberOfQuestions = currentTest.listOfQuestions.length;
   let correctAnswers = 0;
-  console.log(currentTest.currentQuestion);
+
   currentTest.listOfQuestions.forEach(function(question) {
-    console.log("The question is = " + question.question);
-    // console.log("The pick is = " + question.pick);
+
     var chosenAnswer = question.pick;
-    if (chosenAnswer == null) {
-      console.log("there is no answer");
-    } else if (question.answers[parseInt(chosenAnswer)].isCorrect == 1) {
+    if (chosenAnswer != null && question.answers[parseInt(chosenAnswer)].isCorrect == 1) {
       correctAnswers++;
     }
   });
-  // currentTest.listOfQuestions.forEach(function(question) {
-  //   console.log(question.answers[0].pick);
-  //   if (question.pick === null) {
-  //
-  //   } else if (question.answers[parseInt(question.pick)].isCorrect === 1) {
-  //     correctAnswers++;
-  //   }
-  // });
-  res.send("Correct answers: " + correctAnswers);
+  const percentage = correctAnswers / numberOfQuestions * 100;
+  // res.send("Correct answers: " + correctAnswers);
+  res.render("result", {
+    resultMessage: getResult(correctAnswers, numberOfQuestions),
+    correctAnswers: correctAnswers,
+    totalQuestions: numberOfQuestions,
+    percentage: percentage,
+    id: testId
+  });
 });
 
-app.get("/", function(req, res) {
-  let currentQuestion = 0;
-  let questionList = getQuestions();
-  let test = new Test(questionList, uniqueId, currentQuestion);
-  testList.push(test);
+app.get("/review/:id", function(req, res){
+  let testId = parseInt(req.params.id);
+  let currentTest = getCurrentTest(testId);
 
-  setTimeout(function() {
-    // console.log(testList[0].listOfQuestions[1].question);
-    res.render("index", {
-      image: test.listOfQuestions[currentQuestion].picture,
-      id: uniqueId,
-      question: test.listOfQuestions[currentQuestion],
-      size: test.listOfQuestions.length,
-      questionNumber: currentQuestion
+  res.render("review", {
+    questions: getIncorrect(currentTest.listOfQuestions)
+  });
+});
+
+// app.get("/", function(req, res){
+//   dataBase.getSections(function(sections){
+//     res.render("home", {
+//       sections: sections
+//     });
+//   });
+// });
+
+app.get("/:customerId/home", function(req, res){
+    dataBase.getSections(function(sections){
+      res.render("home", {
+        sections: sections
+      });
     });
-    uniqueId++;
-  }, 1000);
+})
 
+app.get("/test/:number", function(req, res){
+  let currentQuestion = 0;
+  dataBase.getQuestions(req.params.number, function(questionList){
+    let test = new Test(questionList, uniqueId, currentQuestion);
+    testList.push(test);
+
+    setTimeout(function() {
+      // console.log(testList[0].listOfQuestions[1].question);
+      res.render("index", {
+        image: test.listOfQuestions[currentQuestion].picture,
+        id: uniqueId,
+        question: test.listOfQuestions[currentQuestion],
+        questionList: test.listOfQuestions,
+        questionNumber: currentQuestion
+      });
+      uniqueId++;
+    }, 100);
+  });
 });
 
-function getQuestions() {
-  let listOfQuestions = [];
-  const sqlite3 = require("sqlite3").verbose();
+app.get("/login", function(req, res){
+  res.render("login", {
+    path: "/login/submit",
+    action: "Prisijungti",
+    wantReg: "Sukurti paskyrą",
+    remindPass: "Pamiršai slaptažodį?"
+  });
+});
 
-  const getQuestions = "SELECT * FROM question WHERE section_id = 4";
-  const getAnswers = "SELECT * FROM answer WHERE question_id = ?";
+app.get("/register", function(req, res){
+  res.render("login", {
+    path: "/register/submit",
+    action: "Registruotis",
+    wantReg: "",
+    remindPass: ""
+  });
+})
 
-  const db = new sqlite3.Database("D:\\WebDevelpomentCourse\\Web Development\\SailingQuizOnline\\SailingQuiz.db", (err) => {
-
-    if (err) {
-      console.log(error);
-    } else {
-      console.log("successfuly connected to db");
+app.post("/login/submit", function(req, res){
+  mongoDB.getClient(req.body.name, function(client){
+    if (client){
+      if (client.password === req.body.password){
+        res.redirect("/" + client._id + "/home");
+      } else {
+        res.redirect("/login");
+      }
     }
   });
+});
 
-  db.all(getQuestions, [], function(err, rows) {
-    rows.forEach(function(row) {
+app.post("/register/submit", function(req, res){
+  mongoDB.addClient(req.body.name, req.body.password, function(client){
 
-
-
-      //  listOfQuestions.push(row.question);
-      let image;
-      if (row.picture != null){
-        image = row._id;
-      } else {
-        image = null;
-      }
-
-      let question = row.question;
-      let answersFromDB = [];
-      db.all(getAnswers, [row._id], function(err, answers) {
-        answers.forEach(function(answer) {
-
-          var entry = new Answer(answer.answer, answer.isTrue);
-          answersFromDB.push(entry);
-
-        });
-      });
-      var sailQuestion = new Question(question, answersFromDB, image);
-      listOfQuestions.push(sailQuestion);
-
-    });
-
+    res.redirect("/" + client._id + "/home");
   });
-  db.close();
-  return listOfQuestions;
-}
+  console.log(req.body.name);
+
+});
+
 
 function getCurrentTest(id) {
   for (var i = 0; i < testList.length; i++) {
@@ -167,4 +178,28 @@ function getCurrentTest(id) {
       return testList[i];
     }
   }
+}
+
+function getResult(correct, total){
+  let result="";
+  if (total * 0.9 < correct){
+    result = "Sveikinu išlaikius egzaminą!";
+  } else {
+    result = "Deja, egzamino neišlaikei."
+  }
+  return result;
+}
+
+function getIncorrect(questions){
+  let incorrect = [];
+  questions.forEach(function(question){
+    if (question.pick == null){
+      incorrect.push(question);
+      return;
+    }
+    if (question.answers[question.pick].isCorrect != 1){
+      incorrect.push(question);
+    }
+  });
+  return incorrect;
 }

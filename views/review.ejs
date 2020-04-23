@@ -1,0 +1,47 @@
+<%- include("partials/header") -%>
+
+<body>
+
+  <div class="alignment introduction">
+    <h2>Klausimai į kuriuos dar nepavyko atsakyti teisingai...</h2>
+  </div>
+
+  <div class="container">
+    <div class="row">
+
+      <% questions.forEach(function(question){ %>
+          <div class="col-sm col-lg-6 padding">
+              <h4 class="bottom-margin"> <%= question.question %> </h4>
+            <%  if (question.picture != null){ %>
+                  <img class="question-image" src="/images/questions/<%= question.picture %>.png" alt="">
+              <% } %>
+
+                <% var i = 0; %>
+                <% question.answers.forEach(function(answer){ %>
+                  <% if (answer.isCorrect == 1){ %>
+                    <p class="correct"> <%= answer.answer %></p>
+                    <% } else if (question.pick == i.toString()){ %>
+                      <p class="incorrect"><%= answer.answer %></p>
+                      <% } else { %>
+                        <p><%= answer.answer %></p>
+                        <%  } %>
+                        <% i++; %>
+                        <% }); %>
+          </div>
+          <hr>
+      <% }); %>
+
+    </div>
+  </div>
+
+  <nav class="navbar fixed-bottom navbar-light bg-light">
+    <a class="navbar-brand" href="/">Grįžti į pradžią</a>
+  </nav>
+
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+<%- include("partials/footer") -%>
