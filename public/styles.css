@@ -1,3 +1,7 @@
+body{
+  font-family: 'Baloo Bhaina 2', cursive;
+}
+
 h5{
   font-size: 20px;
 }
@@ -6,21 +10,134 @@ h5{
   margin: 10px 0 10px 3px;
 }
 
+.display-5{
+  text-align: center;
+}
+
 .checkbox-style{
   color: #FFF;
 }
-img{
+.question-image{
+  display: block;
   height: 150px;
-  margin: 50px 0;
+  margin: 30px auto 20px;
 }
+
+.question-area{
+  padding: 50px 20%;
+
+  background-color: #f7f7f7;
+}
+
+.custom-control-label{
+  margin: 10px 0 10px 60px;
+  font-size: 20px
+}
+
+.bottom-margin{
+  margin-bottom: 40px;
+}
+
+/* HOME */
+
+.welcome{
+
+  text-align: center;
+  padding: 10px
+
+}
+
+.bar-chart{
+  text-align: center;
+  width: 500px;
+}
+
+.circle-chart{
+  margin: 10px;
+  width: 400px;
+}
+
+canvas{
+    text-align: center;
+}
+
+
+
+
+/* CHECKBOX */
 
 
 /* BUTTON SECTION */
 
+#next{
+  margin: 10px auto 10px 2%;
+}
+#previous{
+  margin: 10px 2% 10px auto;
+}
+
 .navigation-buttons{
   text-align: center;
+  margin: 30px 50px;
 }
 
 .alignment{
   text-align: center;
+  padding: 50px 0;
+}
+
+.button-alignment{
+    text-align: center;
+    padding: 10px 0;
+}
+
+.navbar-custom{
+  background-color: #ececec;
+}
+
+
+
+/* HOME PAGE */
+
+.introduction{
+  color: #2c003e;
+  text-align: center;
+  padding-top: 20px;
+  background-color: #ececec;
+}
+
+.exam-themes{
+  text-align: center;
+  padding: 10px 0;
+}
+
+.home-image{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 100%;
+  width: 20%;
+}
+
+.chart-section{
+  padding: 50px;
+}
+
+/* RESULT PAGE */
+
+.container-full-bg .jumbotron{
+    height: 100vh;
+}
+
+/* REVIEWS PAGE */
+
+.correct{
+  color: green;
+  font-weight: bold;
+}
+.incorrect{
+  color: red;
+}
+.padding{
+  padding: 30px 20px;
 }

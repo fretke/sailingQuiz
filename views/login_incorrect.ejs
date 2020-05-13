@@ -26,11 +26,16 @@
                   <input type="submit" class="fadeIn fourth" value="<%= action %>">
                 </form>
 
+                <div class="">
+                  <p class="incorrectInput"> <%= notice %> </p>
+                </div>
+
                 <div id="formFooter">
                   <a class="underlineHover" href="/register"><%= wantReg %></a>
                   <br>
                   <a class="underlineHover" href="#"><%= remindPass %></a>
                 </div>
+
             </div>
           </div>
         </div>
@@ -39,8 +44,16 @@
 
     </div>
 
+    <!-- <div class="introduction">
+      <h1>Buriavimo testas internete</h1>
+
+      <h3>Pasiruošk artėjančiam egzaminui!</h3>
+    </div> -->
+
+    <!-- LOG IN FORM -->
+
   </body>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 
-  <!-- <script src="/index.js" charset="utf-8"></script> -->
+  <script src="/index.js" charset="utf-8"></script>
   <%- include("partials/footer") -%>

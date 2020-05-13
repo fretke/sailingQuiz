@@ -1,8 +1,7 @@
-html {
-  background-color: #56baed;
-}
+
 
 body {
+  background-color: #f7f7f7;
   font-family: 'Baloo Bhaina 2', cursive;
   height: 100vh;
 }
@@ -23,7 +22,22 @@ h4 {
   margin: 40px 8px;
 }
 
+/* CUSTOM CONFIG */
+.config{
+  margin: 100px 100px 0 0;
+}
 
+.incorrectInput{
+  font-weight: bold;
+  color: red;
+}
+
+.boat-image{
+  display: block;
+  margin: 300px auto 0 auto;
+  border-radius: 100%;
+  width: 60%;
+}
 
 /* STRUCTURE */
 
